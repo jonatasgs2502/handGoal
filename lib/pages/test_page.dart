@@ -25,7 +25,6 @@ class _TestPageState extends State<TestPage> {
             SizedBox(
                 height:
                     20), // Adiciona um pequeno espaço entre o texto e a imagem
-            Image(image: AssetImage('images/goalzone.jpg')),
           ],
         ),
       ),

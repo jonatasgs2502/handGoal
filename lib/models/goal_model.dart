@@ -170,4 +170,14 @@ class GoalModel extends ChangeNotifier {
     eventLog.removeWhere((e) => e.goalZoneId == id);
     notifyListeners();
   }
+
+  // Supondo que você tenha uma lista para armazenar os gols:
+  List<dynamic> goals = []; // Substitua pelo tipo correto se necessário
+
+  void removeLastGoal() {
+    if (goals.isNotEmpty) {
+      goals.removeLast();
+      notifyListeners();
+    }
+  }
 }

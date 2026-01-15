@@ -20,21 +20,34 @@ class ResetButtonWidget extends StatelessWidget {
           showDialog(
             context: context,
             builder: (context) => AlertDialog(
-              title: const Text('Resetar Dados'),
-              content: const Text(
-                  'Tem certeza que deseja resetar todas as estatísticas?'),
+              title: const Text('Opções de Dados'),
+              content:
+                  const Text('O que você deseja fazer com as estatísticas?'),
               actions: [
                 TextButton(
-                    onPressed: () => Navigator.pop(context),
-                    child: const Text('Cancelar')),
+                  onPressed: () => Navigator.pop(context),
+                  child: const Text('Cancelar'),
+                ),
+                TextButton(
+                  onPressed: () {
+                    goalModel.removeLastGoal();
+                    Navigator.pop(context);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Último gol removido!')),
+                    );
+                  },
+                  child: const Text('Remover Último Gol'),
+                ),
                 TextButton(
                   onPressed: () {
                     goalModel.resetAllZones();
                     Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        content: Text('Dados resetados com sucesso!')));
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                          content: Text('Dados resetados com sucesso!')),
+                    );
                   },
-                  child: const Text('Resetar'),
+                  child: const Text('Resetar Tudo'),
                 ),
               ],
             ),
@@ -43,7 +56,7 @@ class ResetButtonWidget extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             backgroundColor: Colors.red,
             padding: const EdgeInsets.symmetric(vertical: 12)),
-        child: const Text('Resetar Tudo',
+        child: const Text('Resetar / Remover Gol',
             style: TextStyle(color: Colors.white, fontSize: 16)),
       ),
     );
