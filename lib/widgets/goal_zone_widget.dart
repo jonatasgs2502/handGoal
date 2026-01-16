@@ -21,6 +21,9 @@ class GoalZoneWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final buttonSize = screenWidth / 15; // Reduced button size
+
     return Consumer<GoalModel>(
       builder: (context, goalModel, child) {
         final successRate = zone.successRate;
@@ -43,84 +46,98 @@ class GoalZoneWidget extends StatelessWidget {
               onTap: () => _showOptionsDialog(context, goalModel),
               borderRadius: BorderRadius.zero,
               child: Padding(
-                padding: const EdgeInsets.all(4.0),
+                padding: const EdgeInsets.all(2.0),
                 child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     // Nome compacto
-                    Text(
-                      zone.name,
-                      textAlign: TextAlign.center,
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w600,
-                        color: Color.fromARGB(255, 0, 0, 0),
+                    Flexible(
+                      flex: 2,
+                      child: Text(
+                        zone.name,
+                        textAlign: TextAlign.center,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 9,
+                          fontWeight: FontWeight.w600,
+                          color: Color.fromARGB(255, 0, 0, 0),
+                        ),
                       ),
                     ),
                     // Indicador circular
-                    Stack(
-                      alignment: Alignment.center,
-                      children: [
-                        SizedBox(
-                          width: 40,
-                          height: 40,
-                          child: CircularProgressIndicator(
-                            value: zone.attempts == 0 ? 0 : successRate / 100,
-                            backgroundColor: Colors.grey[800],
-                            valueColor: AlwaysStoppedAnimation<Color>(bgColor),
-                            strokeWidth: 1.6,
+                    Flexible(
+                      flex: 3,
+                      child: Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          SizedBox(
+                            width: 36,
+                            height: 36,
+                            child: CircularProgressIndicator(
+                              value: zone.attempts == 0 ? 0 : successRate / 100,
+                              backgroundColor: Colors.grey[800],
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(bgColor),
+                              strokeWidth: 1.6,
+                            ),
                           ),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              '${zone.goals}/${zone.attempts}',
-                              style: const TextStyle(
-                                fontSize: 11,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
+                                '${zone.goals}/${zone.attempts}',
+                                style: const TextStyle(
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white,
+                                ),
                               ),
-                            ),
-                            Text(
-                              '${successRate.toStringAsFixed(0)}%',
-                              style: TextStyle(
-                                fontSize: 9,
-                                color: bgColor,
-                                fontWeight: FontWeight.bold,
+                              Text(
+                                '${successRate.toStringAsFixed(0)}%',
+                                style: TextStyle(
+                                  fontSize: 8,
+                                  color: bgColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ],
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     // Botões compactos
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        SizedBox(
-                          height: 28,
-                          width: 28,
-                          child: FloatingActionButton(
-                            mini: true,
-                            onPressed: () => goalModel.recordGoal(zone.id),
-                            backgroundColor: Colors.green,
-                            child: const Icon(Icons.check, size: 12),
+                    Flexible(
+                      flex: 2,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          SizedBox(
+                            height: buttonSize,
+                            width: buttonSize,
+                            child: FloatingActionButton(
+                              mini: true,
+                              heroTag: 'goal_${zone.id}',
+                              onPressed: () => goalModel.recordGoal(zone.id),
+                              backgroundColor: Colors.green,
+                              child: const Icon(Icons.check, size: 12),
+                            ),
                           ),
-                        ),
-                        SizedBox(
-                          height: 28,
-                          width: 28,
-                          child: FloatingActionButton(
-                            mini: true,
-                            onPressed: () => goalModel.recordMiss(zone.id),
-                            backgroundColor: Colors.red,
-                            child: const Icon(Icons.close, size: 12),
+                          SizedBox(width: 2),
+                          SizedBox(
+                            height: buttonSize,
+                            width: buttonSize,
+                            child: FloatingActionButton(
+                              mini: true,
+                              heroTag: 'miss_${zone.id}',
+                              onPressed: () => goalModel.recordMiss(zone.id),
+                              backgroundColor: Colors.red,
+                              child: const Icon(Icons.close, size: 12),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),

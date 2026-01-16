@@ -7,46 +7,40 @@ class StatsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Estatísticas'),
-        centerTitle: true,
-      ),
-      body: Consumer<GoalModel>(
-        builder: (context, goalModel, child) {
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // Card com resumo geral
-                  _buildSummaryCard(goalModel),
-                  const SizedBox(height: 20),
-                  // Card com melhor zona
-                  _buildBestZoneCard(goalModel),
-                  const SizedBox(height: 16),
-                  // Card com pior zona
-                  _buildWorstZoneCard(goalModel),
-                  const SizedBox(height: 20),
-                  // Título da listagem de zonas
-                  const Text(
-                    'Detalhes por Zona',
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.white,
-                    ),
+    return Consumer<GoalModel>(
+      builder: (context, goalModel, child) {
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Card com resumo geral
+                _buildSummaryCard(goalModel),
+                const SizedBox(height: 20),
+                // Card com melhor zona
+                _buildBestZoneCard(goalModel),
+                const SizedBox(height: 16),
+                // Card com pior zona
+                _buildWorstZoneCard(goalModel),
+                const SizedBox(height: 20),
+                // Título da listagem de zonas
+                const Text(
+                  'Detalhes por Zona',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
                   ),
-                  const SizedBox(height: 12),
-                  // Lista de zonas com estatísticas
-                  ...goalModel.zones.map((zone) => _buildZoneStatsCard(zone)),
-                ],
-              ),
+                ),
+                const SizedBox(height: 12),
+                // Lista de zonas com estatísticas
+                ...goalModel.zones.map((zone) => _buildZoneStatsCard(zone)),
+              ],
             ),
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 
